@@ -32,7 +32,7 @@ var utenti = sequelize.define('utenti',{
 
 app.get("/", function(req,res){
   console.log("OK!");
-  res.send("HOME");
+  res.send("INCIDENTE DIO EHHHHHHHHHHH!!!");
   res.end();
 });
 
