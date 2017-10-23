@@ -2,9 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var Sequelize = require('sequelize');
-var algorithm = 'aes-256-ctr';
-var password = 'P4l3str4!';
-var crypto = require('crypto');
+
 var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
@@ -24,49 +22,28 @@ sequelize.authenticate().then(function(err){
 })
 
 
-var utenti = sequelize.define('utenti',{
-  username: Sequelize.STRING,
-  password: Sequelize.STRING
+var words = sequelize.define('word',{
+  ita: Sequelize.STRING,
+  eng: Sequelize.STRING
 })
 
 
 app.get("/", function(req,res){
   console.log("OK!");
-  res.send("INCIDENTE DIO EHHHHHHHHHHH!!!");
+  res.send("DIO CARO SE DIVENTEREMO RICCHI AMICA CARPA.");
   res.end();
 });
 
-app.get("/newUser", function(req, res){
-  var usr = "michael";
-  var password = "password test";
-  var encryptedpwd = encrypt(password);
+app.get("/newWord", function(req, res){
+  var itaWord = req.query.ita;
+  var engWord = req.query.eng;
+
+
+
   res.send(encryptedpwd)
   res.end();
 })
 
-app.get("/logUsr", function(req,res){
-  var encryptedpwd = "489eebb5d2696d3034a959a1cc";
-  var pwd = decrypt(encryptedpwd);
-  res.send(pwd)
-  res.end();
-})
-
-
-
-//Funzioni crypt and decrypt
-function encrypt(text){
-  var cipher = crypto.createCipher(algorithm,password)
-  var crypted = cipher.update(text,'utf8','hex')
-  crypted += cipher.final('hex');
-  return crypted;
-}
-
-function decrypt(text){
-  var decipher = crypto.createDecipher(algorithm,password)
-  var dec = decipher.update(text,'hex','utf8')
-  dec += decipher.final('utf8');
-  return dec;
-}
 
 app.listen(PORT, function(){
   console.log("LISTENING ON PORT: "+PORT);
